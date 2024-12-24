@@ -2,8 +2,6 @@ class Solution(object):
     def __init__(self):
         self.matrix = {}
         self.visit = []
-        self.check = True
-        self.processed = []
         self.curr_visit = []
     
     def dfs(self, node):
@@ -17,24 +15,22 @@ class Solution(object):
             
             if neighbors:
                 for n in neighbors:
-                    if node == n or (n in self.curr_visit and n in self.matrix):
-                        self.check = False
-                        return
-                        
-                    if n not in self.visit and n not in self.processed:
+                    if node == n or (n in self.curr_visit):
+                        return False
+                       
+                    if n not in self.visit:
                         stack.append(n)
                         self.visit.append(n)
             else:
                 self.curr_visit = []
             
+        return True
+            
 
     def dfs_iterate(self):
         for key in self.matrix:
             self.curr_visit = []
-            self.processed.append(key)
-            self.dfs(key)
-
-            if self.check == False:
+            if not self.dfs(key):
                 return False
         return True
             
