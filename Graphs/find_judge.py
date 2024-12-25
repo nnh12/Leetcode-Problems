@@ -43,22 +43,21 @@ class Solution(object):
         for key in self.matrix:
             self.dfs(key)
         
-        print(self.matrix)
-        print(self.no_neighbor)
-
-        for judge in self.no_neighbor:
+        for judge in self.no_neighbor[:]: # create a true copy of neighbor
             print(judge)
             if judge in self.matrix:
                 self.no_neighbor.remove(judge)
             else:
                 for node in self.visit:
-                    print(node)
-                    if judge in self.no_neighbor:
-                        self.no_neighbor.remove(judge)
-                    
-                    
-                    
-                
+                    if judge != node and self.matrix.get(node) is None:
+                        if judge in self.no_neighbor:
+                            self.no_neighbor.remove(judge)
+                    elif judge != node and judge not in self.matrix.get(node):
+                        if judge in self.no_neighbor:
+                            self.no_neighbor.remove(judge)
+
+        print(self.matrix)
+
         if len(self.no_neighbor) == 1:
             return self.no_neighbor[0]
         else:
