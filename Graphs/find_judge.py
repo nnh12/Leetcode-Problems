@@ -17,7 +17,7 @@ class Solution(object):
             if neighbor:
                 for n in neighbor:
                     if n not in self.visit:
-                        if n not in self.matrix:
+                        if n not in self.matrix: # Find a node that is not pointing to anything
                             self.no_neighbor.append(n)
                         self.visit.append(n)
                         stack.append(n)
