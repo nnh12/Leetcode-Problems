@@ -11,15 +11,14 @@ class Solution(object):
         while stack:
             top = stack.pop()
             neighbor = self.matrix.get(top)
-            print(top)
+            if top not in self.visit:
+                self.visit.append(top)
 
             if neighbor:
                 for n in neighbor:
                     if n not in self.visit:
                         if n not in self.matrix:
                             self.no_neighbor.append(n)
-
-                        print(self.visit)
                         self.visit.append(n)
                         stack.append(n)
 
@@ -45,12 +44,21 @@ class Solution(object):
             self.dfs(key)
         
         print(self.matrix)
+        print(self.no_neighbor)
 
-        for node in self.no_neighbor:
-            for key in self.matrix:
-                if node not in self.visit:
-                    self.no_neighbor.remove(node)
-
+        for judge in self.no_neighbor:
+            print(judge)
+            if judge in self.matrix:
+                self.no_neighbor.remove(judge)
+            else:
+                for node in self.visit:
+                    print(node)
+                    if judge in self.no_neighbor:
+                        self.no_neighbor.remove(judge)
+                    
+                    
+                    
+                
         if len(self.no_neighbor) == 1:
             return self.no_neighbor[0]
         else:
