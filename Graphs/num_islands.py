@@ -40,7 +40,7 @@ class Solution(object):
             neighbor = self.get_neighbor(top)
             if top not in self.visit:
                 self.visit.append(top)
-            print(top)
+            #print(top)
 
             if neighbor:
                 for n in neighbor:
@@ -56,6 +56,15 @@ class Solution(object):
         self.m = len(grid)
         self.n = len(grid[0])
         self.grid = grid
+
+        islands = 0
+
+        for row in range(self.m):
+            for col in range(self.n):
+                if [row, col] not in self.visit and self.grid[row][col] == '1':
+                    #print([row, col])
+                    #print(self.visit)
+                    islands += 1
+                    self.bfs(row, col)
         
-        self.bfs(0, 0)
-        return 0
+        return islands
