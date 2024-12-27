@@ -21,7 +21,7 @@ class Solution(object):
         column = coordinate [1]
         list = []
 
-        if row+1 >= 0 and row+1 < self.m -1 and self.grid[row+1][column] == '1':
+        if row+1 >= 0 and row+1 < self.m and self.grid[row+1][column] == '1':
                 list.append([row+1, column])
         if row-1 >= 0 and row-1 < self.m and self.grid[row-1][column] == '1':
             list.append([row-1, column])
