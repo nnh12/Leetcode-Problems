@@ -24,28 +24,22 @@ class Solution(object):
                         visit.append(n)
                         stack.append(n)
 
-    def iterate(self, numCourses, prerequisites):
+    def build_adj_matrix(self, val, list_node):
         """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
+        :type val: int
+        :type list_node: List[List[int]]
         :rtype: bool
         """
 
-        for prereq in prerequisites:
-            val = prereq[0]
-            neighbor = prereq[1]
+        for node in list_node:
+            val = node[0]
+            neighbor = node[1]
 
             if val in self.matrix:
                 self.matrix[val].append(neighbor)
             else: 
                 self.matrix[val] = []
                 self.matrix[val].append(neighbor)
-
-        for key in self.matrix:
-            self.dfs_start(key)
-            break 
-
-
-        
-
-        
+                
+        # Itereate through adj matrix using dfs from node in list_node              
+        self.dfs_start(self.matrix[list_node[0][0]])
