@@ -23,6 +23,8 @@ class Solution(object):
         while self.queue:
             front = self.queue.popleft()
             neighbors = front.neighbors
+            
+            # sort the neighbors by val
             neighbors = sorted(neighbors, key=lambda node: node.val)
             list = []
             
