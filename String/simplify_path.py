@@ -14,7 +14,6 @@ class Solution(object):
         i=1
         start = 0
         list = []
-        print(path)
 
         while i < len(path):
             start = i
@@ -26,6 +25,8 @@ class Solution(object):
         
         stack = []
         index = 0
+
+        #print(list)
         while(index < len(list)):
             if list[index] == ".." and index + 1 < len(list):
                 stack.pop()
@@ -35,4 +36,14 @@ class Solution(object):
                 stack.append(list[index])
                 index += 1
 
-        print(stack)
+        if len(stack) == 1 and stack[0] == "..":
+            return "/"
+            
+        #print(stack)
+        path = "/"
+        for i in stack:
+            if i != '.':
+                path += i
+                path += "/"
+
+        return path[:len(path) -1]
