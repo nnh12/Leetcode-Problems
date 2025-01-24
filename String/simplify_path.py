@@ -26,7 +26,6 @@ class Solution(object):
         stack = []
         index = 0
 
-        #print(list)
         while(index < len(list)):
             if list[index] == ".." and index + 1 < len(list):
                 stack.pop()
@@ -36,10 +35,21 @@ class Solution(object):
                 stack.append(list[index])
                 index += 1
 
+        word_stack = []
+        print(stack)
+
+        for i in stack:
+            if i == ".." and word_stack:
+                word_stack.pop()
+            elif i != ".":
+                word_stack.append(i)
+       
+        print(word_stack)
+        stack = word_stack
+
         if len(stack) == 1 and stack[0] == "..":
             return "/"
-            
-        #print(stack)
+
         path = "/"
         for i in stack:
             if i != '.':
