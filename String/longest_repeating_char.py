@@ -24,30 +24,25 @@ class Solution(object):
 
 
     def characterReplacement(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: int
-        """
-        win_size = 0
-        right, left = 0, 0
+        left = 0
+        max_count = 0  # Tracks the count of the most frequent character in the current window
+        freq_map = defaultdict(int)
+        max_len = 0
         
-        while (right < len(s)):
-
-            num_changes = (right - left + 1) - self.max
-
-            if (right- left + 1 > win_size):
-                print(self.max)
-                print(right, left)
-                print(" ")
-                win_size = right-left + 1
-
-            if (num_changes > k):
-                self.remove_char(s[left])
+        for right in range(len(s)):
+            # Add the current character to the frequency map
+            freq_map[s[right]] += 1
+            
+            # Update the max_count to the highest frequency in the current window
+            max_count = max(max_count, freq_map[s[right]])
+            
+            # If the window size minus the count of the most frequent character is more than k,
+            # we shrink the window from the left.
+            if (right - left + 1) - max_count > k:
+                freq_map[s[left]] -= 1
                 left += 1
-            else:
-                self.add_char(s[right])
-                right += 1
-
-        print(self.max)
-        return win_size
+            
+            # Update the maximum length of the window
+            max_len = max(max_len, right - left + 1)
+        
+        return max_len
