@@ -32,20 +32,25 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-
         max = 0
         right = 0
+        ptr = 1
+        left = 0
+
 
         for i in range(len(s)):
             left = i
-            while (right < len(s) and self.add_char(s[right]) and (right - left + 1 - self.max_count <= k)):
+            ptr = left
+
+            while (right < len(s) and self.add_char(s[ptr]) and (right - left + 1 - self.max_count <= k)):
                 if (right - left + 1 > max):
                     max = right - left + 1
                 print(s[right], right, left, self.char_dict, self.max_count, right - left + 1 - self.max_count)
 
                 right += 1
-                                
-            right -= 1
+                ptr = right
+
+            
             print('here')
             self.remove_char(s[left])
                    
