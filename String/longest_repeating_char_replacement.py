@@ -7,6 +7,7 @@ class Solution(object):
     def add_char(self, char):
 
         if char in self.char_dict:
+            print('add ', char)
             self.char_dict[char] += 1
         else:
             self.char_dict[char] = 1
@@ -19,8 +20,11 @@ class Solution(object):
 
     def remove_char(self, char):
         if char in self.char_dict:
-            if self.char_dict[char] > 0:
-                self.char_dict[char] -= 1    
+            if self.char_dict[char] != 0:
+                print('remove ', char)
+                self.char_dict[char] -= 1
+            else:
+                self.char_dict[char] = 0
         
         if self.max_char == char:
             self.max_count -= 1
@@ -40,19 +44,17 @@ class Solution(object):
 
         for i in range(len(s)):
             left = i
-            ptr = left
 
-            while (right < len(s) and self.add_char(s[ptr]) and (right - left + 1 - self.max_count <= k)):
+            while (right < len(s) and self.add_char(s[right]) and (right - left + 1 - self.max_count <= k)):
                 if (right - left + 1 > max):
                     max = right - left + 1
                 print(s[right], right, left, self.char_dict, self.max_count, right - left + 1 - self.max_count)
 
                 right += 1
-                ptr = right
-
             
             print('here')
             self.remove_char(s[left])
+            if (right < len(s)):
+                self.remove_char(s[right])
                    
         return max
-
