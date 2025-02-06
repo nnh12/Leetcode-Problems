@@ -4,10 +4,11 @@ class Solution(object):
         self.m = 0
         self.n = 0
         self.heights = [[]]
-        self.copy = [[]]
+        self.copy_heights = [[]]
 
     def neighbors(self, row, col):
         list = []
+        print('compare point to', row, col)
 
         if row-1 >=0 and (self.heights[row-1][col] <= self.heights[row][col]):
             list.append([row-1, col])
@@ -18,7 +19,7 @@ class Solution(object):
         if col + 1 < self.n and (self.heights[row][col+1] <= self.heights[row][col]):
             print('here')
             list.append([row, col + 1])
-        
+
         print(row, col, list)
         return list
 
@@ -26,7 +27,7 @@ class Solution(object):
         stack = []
         stack.append([row_init, col_init])
         oceans = [0, 0]
-        #copy_heights = self.heights
+        copy_heights = self.copy_heights
         
         while stack:
             top = stack.pop()
@@ -48,11 +49,11 @@ class Solution(object):
 
             for n in neighbors:
                 row_n, col_n = n
-                if self.heights[row_n][col_n] != -100:
-                    self.heights[row_n][col_n] = -100
+                if self.copy_heights[row_n][col_n] != "*":
+                    self.copy_heights[row_n][col_n] = "*"
                     stack.append([row_n, col_n])
 
-        #self.heights= copy_heights
+        self.copy_heights = copy_heights
         return oceans
 
     def pacificAtlantic(self, heights):
@@ -63,13 +64,11 @@ class Solution(object):
         self.heights = heights
         self.m = len(heights)
         self.n = len(heights[0])
-        self.copy = heights
+        self.copy_heights = heights
         list = []
 
         if heights == [[1]]:
             return []
-
-        print(self.n)
         
         print(self.dfs(2, 2))
 
