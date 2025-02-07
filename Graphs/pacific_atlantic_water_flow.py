@@ -7,29 +7,31 @@ class Solution(object):
         self.n = 0
         self.heights = [[]]
         self.visit = []
+        self.dp = []
 
     def neighbors(self, row, col):
-        list = []
+        add_set = set()
 
         if (row - 1 >= 0 and (self.heights[row-1][col] <= self.heights[row][col]  )):
-            print(self.heights[row-1][col], 'is less than', self.heights[row][col])
-            list.append([row-1, col])
+            add_set.add((row-1, col))
         if (col - 1 >= 0 and (self.heights[row][col - 1] <= self.heights[row][col]) ):
-            print(self.heights[row][col - 1], 'is less than', self.heights[row][col])
-            list.append([row, col-1])
+            add_set.add((row, col-1))
         if (row + 1 < self.m and (self.heights[row+1][col] <= self.heights[row][col]) ):
-            print(self.heights[row+1][col], 'is less than', self.heights[row][col])
-            list.append([row+1, col])
+            add_set.add((row+1, col))
         if (col + 1 < self.n and (self.heights[row][col+1]) <= self.heights[row][col] ):
-            print(self.heights[row][col + 1], 'is less than', self.heights[row][col])
-            list.append([row, col+1])
+            add_set.add((row, col+1))
 
-        return list
+        return add_set
 
     def dfs(self, row, col):
         stack = []
         stack.append([row, col])
-        visit = copy.deepcopy(self.heights)
+
+        visit = []
+        for _ in range(self.m):
+            r = [0] * self.n
+            visit.append(r)
+        
         visit[row][col] = -1
         oceans = [0, 0]
         
@@ -44,14 +46,12 @@ class Solution(object):
             if (row_cur == (self.m - 1) or col_cur == (self.n - 1)):
                 oceans[1] = 1
             
-            if oceans == [1, 1]:
-                print('yes')
+            if oceans == [1, 1] or self.dp[row_cur][col_cur] == -1:
                 return True
 
             if neighbors:
                 for n in neighbors:
                     if visit[n[0]][n[1]] != -1 :
-                        print(n, 'not in ', self.visit)
                         visit[n[0]][n[1]] = -1
                         stack.append(n)
 
@@ -66,13 +66,15 @@ class Solution(object):
         self.heights = heights
         self.m = len(heights)
         self.n = len(heights[0])
+        self.dp = copy.deepcopy(heights)
         list = []
         
         for i in range(self.m):
-            for j in range(self.n):
+            for j in range(self.n-1, -1, -1):
                 if self.dfs(i, j):
                     list.append([i, j])
-        print(list)
+                    self.dp[i][j] = - 1
+                   
         return list
 
         
