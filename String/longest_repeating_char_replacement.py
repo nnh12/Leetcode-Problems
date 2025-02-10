@@ -20,31 +20,30 @@ class Solution(object):
     def remove_char(self,char):
         if char in self.dict:
             self.dict[char] -= 1
-            self.max -= 1
-            max = self.max
+            if char == self.char:
+                self.max -= 1
+            
 
-            for key in self.dict:
-                if self.dict[key] > max:
-                    self.char = key
-                    self.max = self.dict[key]
-    
     def characterReplacement(self, s, k):
         """
         :type s: str
         :type k: int
         :rtype: int
         """
-        max = 0 
-        right = 0
+        max_len = 0 
+        left = 0
         
-        for left in range(len(s)):
+        for right in range(len(s)):
+            self.add_char(s[right])
 
-            while (right < len(s) and self.add_char(s[right]) and (right - left + 1 - self.max <= k )  ):
-                print(right, left, self.dict, self.max, self.char)
-                right += 1
-            
-            print(right, left, self.dict, self.max, right - left + 1 - self.max, 'end')
-            self.remove_char(s[left])
-               
-        return max
+            if (right - left + 1 - self.max > k):
+                max_len = max(right - left, max_len)
+                self.remove_char(s[left])
+                left += 1
 
+        if left == 0:
+            max_len = len(s)
+
+        max_len = max(max_len, right - left + 1)
+   
+        return max_len
