@@ -1,45 +1,73 @@
+class Node(object):
+    def __init__(self, char):
+        self.char = ""
+        self.neighbors = {}
+    
+    def add_neighbor(self, char, node):
+        if char not in self.neighbors:
+            self.neighbors[char] = node
+
+    def get_neighbors(self):
+        return self.neighbors
+    
+    def get_char(self):
+        return self.char
+
+
 class Trie(object):
 
     def __init__(self):
-        self.dict = {}
-
+        self.root = {}
+    
     def insert(self, word):
         """
         :type word: str
         :rtype: None
         """
-        if word not in self.dict:
-            self.dict[word] = 1
+        first_char = word[0]
+        if first_char not in self.root:
+            node = Node(first_char)
+            copy = node
+            for i in range(1, len(word)):
+                curr_node = Node(word[i])
+                node.add_neighbor(word[i], curr_node)
+                node = curr_node
+            
+            self.root[first_char] = copy
+        
+        else:
+            node = self.root[first_char]
+            for index in range(1, len(word)):
+                
 
     def search(self, word):
         """
         :type word: str
         :rtype: bool
         """
-        for key in self.dict:
-            if key == word:
-                return True
-        
-        return False
+        first_char = word[0]
+        if first_char in self.root:
+            print(first_char)
+            node = self.root[first_char]
+            for index in range(1, len(word)):
+                neighbor = node.get_neighbors()
+                print(neighbor)
+                if (neighbor.get(word[index])):
+                    print(word[index])
+                else:
+                    return False
+                
+                node = neighbor[word[index]]
+
+        return True
+
         
     def startsWith(self, prefix):
         """
         :type prefix: str
         :rtype: bool
         """
-        for word in self.dict:
-            print(word, prefix)
-            if word[0] == prefix[0]:
-                right = 0
-                while (right < len(prefix) and right > len(word) and prefix[right] == first_word[right]):
-                    right += 1
-                
-                print(word, prefix, right)
-                if (right == len(prefix) - 1):
-                    return True
-        
-
-        return False
+        return True
 
 
 # Your Trie object will be instantiated and called as such:
