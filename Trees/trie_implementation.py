@@ -53,23 +53,17 @@ class Trie(object):
         """
         first_char = word[0]
         if first_char in self.root:
-            print(first_char)
+
             node = self.root[first_char]
             for index in range(1, len(word)):
-                neighbor = node.get_neighbors()
-
-                if not neighbor or not neighbor.get(word[index]):
+                curr_word = word[index]
+                if curr_word not in node.neighbors:
                     return False
+                node = node.neighbors[curr_word]
 
-                node = neighbor[word[index]]
-            
-            if not node.end:
-                return False 
-
-        else:
-            return False
-
-        return True
+            return node.end
+        
+        return False
 
         
     def startsWith(self, prefix):
@@ -82,15 +76,18 @@ class Trie(object):
             node = self.root[first_char]
 
             for index in range(1, len(prefix)):
-                neighbor = node.get_neighbors()
-                if not neighbor or not neighbor.get(prefix[index]):
-                    print(index)
+                curr_word = prefix[index]
+                if curr_word not in node.neighbors: 
                     return False
-
-                node = neighbor[prefix[index]]
+                
+                node = node.neighbors[curr_word]
+            
+            return True
         else:
             return False
-        return True
+        
+
+
 
 '''
 apple
