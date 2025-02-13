@@ -11,30 +11,23 @@ class Solution(object):
         :rtype: ListNode
         """
 
-        if not head:
+        if not head or not head.next:
             return None
 
         slow = head
         fast = head
-
-        while (slow and fast):
-            if not slow.next or not fast.next:
-                return None
-                
+        
+        while (fast and fast.next):
             slow = slow.next
             fast = fast.next.next
 
             if slow == fast:
-                break
-        
-        if (not slow or not fast):
-            return None
-        
-        slow = head
+                slow = head
+                while (slow != fast):
+                    slow = slow.next
+                    fast = fast.next
+                
+                return slow
 
-        while (slow != fast):
-            slow = slow.next
-            fast = fast.next
-        
-        return slow
+        return None
         
