@@ -5,21 +5,22 @@
 #         self.next = next
 class Solution(object):
 
-    def reverse(self, node):
-        prev = None
+    def reverse(self, head):
+        
+        node = head
+        new_node = None
 
         while (node):
             if node.next:
                 next = node.next
-                node.next = prev
-                prev = node
+                node.next = new_node
+                new_node = node
                 node = next
             else:
-                node.next = prev
-                break
-            
-        return node
+                node.next = new_node
+                break    
 
+        return node    
 
     def reorderList(self, head):
         """
@@ -28,12 +29,29 @@ class Solution(object):
         """
         slow = head
         fast = head
-        count = 0 
+        count = 0
+        prev = None
 
-        while (count == 0 or (fast and fast.next)):
+        while (fast and fast.next):
+            prev = slow
             slow = slow.next
             fast = fast.next.next
-            count = 1
-        
-        print(slow.val)
 
+        if prev is None:
+            return
+        
+        rear = self.reverse(slow)
+        prev.next = None
+                
+        while (head or rear):
+            if head.next is None:
+                head.next = rear
+                break
+
+            next = head.next
+            next_rear = rear.next
+
+            head.next = rear
+            rear.next = next
+            rear = next_rear
+            head = next
