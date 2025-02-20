@@ -2,6 +2,7 @@ class Node(object):
     def __init__(self, char):
         self.neighbors = {}
         self.char = char
+        self.end = False
     
     def add_neighbor(self, char, node):
         if char not in self.neighbors:
@@ -25,6 +26,8 @@ class WordDictionary(object):
                 curr = Node(word[i])
                 node.add_neighbor(word[i], curr)
                 node = curr
+            
+            node.end = True
         else:
             node = self.root[char]
 
@@ -36,8 +39,12 @@ class WordDictionary(object):
                     node = curr
                 else:
                     node = node.neighbors[curr_word]
-
             
+            node.end = True
+
+    def dfs(self, char):
+        pass
+
     def search(self, word):
         """
         :type word: str
@@ -48,15 +55,20 @@ class WordDictionary(object):
         if char in self.root:
             node = self.root[char]
             
-            for i in range(1, len(word)):
-                curr_word = word[i]
+            for i in range(1, len(word)):   
+                curr_word = word[i]                 
                 if curr_word in node.neighbors:
                     node = node.neighbors[curr_word]
                 else:
                     return False
-                  
+
+                if i == len(word) - 1 and not node.end:
+                    return False 
+        
         return True
         
+
+
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
 # obj.addWord(word)
