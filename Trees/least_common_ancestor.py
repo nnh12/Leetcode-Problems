@@ -49,23 +49,21 @@ class Solution(object):
 
         tree = original
         tree2 = original2
-        print('tree', tree.tree.val, 'tree2', tree2.tree.val)
+        set1 = set()
 
         while tree or tree2:
-
-            if tree.tree == original2.tree:
-                print('1')
+            if tree.tree in set1:
                 return tree.tree
-            elif tree2.tree == original.tree:
-                print('2')
+            elif tree2.tree in set1:
                 return tree2.tree
             elif tree.tree == tree2.tree:
-                print('3')
                 return tree.tree
 
             if tree.parent:
+                set1.add(tree.tree)
                 tree = tree.parent
             if tree2.parent:
+                set1.add(tree2.tree)
                 tree2 = tree2.parent
-        
+
         return tree.tree
