@@ -75,24 +75,21 @@ class Codec:
                     root.left = TreeNode(list[i])
                     count += 1
                     queue.append(root.left)
-                if count == 1:
+                elif count == 1:
                     root.right = TreeNode(list[i])
-                    count += 1
-                    queue.append(root.right)
-                if count == 2:
                     count = 0
-                    root = queue.popleft()
+                    queue.append(root.right)
+                    if queue:
+                        root = queue.popleft()
             else:
                 if count == 0:
                     root.left = None
                     count += 1
-                if count == 1:
+                elif count == 1:
                     root.right = None
-                    count += 1
-                if count == 2:
+                    count = 0
                     if queue:
                         root = queue.popleft()
-                    count = 0
     
         return node
 
