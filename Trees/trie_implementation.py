@@ -1,69 +1,47 @@
 class Node(object):
-    def __init__(self, char):
-        self.char = ""
-        self.neighbors = {}
+    def __init__(self):
+        self.childern = {}
         self.end = False
-    
-    def add_neighbor(self, char, node):
-        if char not in self.neighbors:
-            self.neighbors[char] = node
-
-    def get_neighbors(self):
-        return self.neighbors
 
 class Trie(object):
 
     def __init__(self):
-        self.root = {}
+        self.root = Node()
     
     def insert(self, word):
         """
         :type word: str
         :rtype: None
         """
-        first_char = word[0]
-        if first_char not in self.root:
-            node = Node(first_char)
-            temp = node
-            for i in range(1, len(word)):
-                curr_node = Node(word[i])
-                node.add_neighbor(word[i], curr_node)
-                node = curr_node
-            
-            node.end = True
-            self.root[first_char] = temp
+        cur_node = self.root
+        for c in word:
+            if c not in cur_node.childern:
+                cur_node.childern[c] = Node()
+                cur_node = cur_node.childern[c]
+            else:
+                cur_node = cur_node.childern[c]
         
+        cur_node.end = True
+    
+    def dfs(self, i, cur_node, word, prefix):
+        if i == len(word):
+            if prefix:
+                return True
+            else:
+                return cur_node.end
+        
+        if word[i] in cur_node.childern:
+            return self.dfs(i + 1,  cur_node.childern[word[i]], word, prefix)
         else:
-            node = self.root[first_char]
-            for index in range(1, len(word)):
-                neighbor = node.get_neighbors()
-                if (neighbor.get(word[index])):
-                    node = neighbor[word[index]]
-                else:
-                    curr_node = Node(word[index])
-                    node.add_neighbor(word[index], curr_node )
-                    node = curr_node
-
-            node.end = True
+            return False
 
     def search(self, word):
         """
         :type word: str
         :rtype: bool
         """
-        first_char = word[0]
-        if first_char in self.root:
-
-            node = self.root[first_char]
-            for index in range(1, len(word)):
-                curr_word = word[index]
-                if curr_word not in node.neighbors:
-                    return False
-                node = node.neighbors[curr_word]
-
-            return node.end
-        
-        return False
+        cur_node = self.root
+        return self.dfs(0, cur_node, word, False )
 
         
     def startsWith(self, prefix):
@@ -71,24 +49,9 @@ class Trie(object):
         :type prefix: str
         :rtype: bool
         """
-        first_char = prefix[0]
-        if first_char in self.root:
-            node = self.root[first_char]
-
-            for index in range(1, len(prefix)):
-                curr_word = prefix[index]
-                if curr_word not in node.neighbors: 
-                    return False
-                
-                node = node.neighbors[curr_word]
-            
-            return True
-        else:
-            return False
+        cur_node = self.root
+        return self.dfs(0, cur_node, prefix, True)
         
-
-
-
 '''
 apple
 apn 
