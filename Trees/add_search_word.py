@@ -1,72 +1,52 @@
 class Node(object):
-    def __init__(self, char):
-        self.neighbors = {}
-        self.char = char
+    def __init__(self):
+        self.childern = {}
         self.end = False
-    
-    def add_neighbor(self, char, node):
-        if char not in self.neighbors:
-            self.neighbors[char] = node
-    
+
+
 class WordDictionary(object):
 
     def __init__(self):
-        self.root = {}
+        self.root = Node()
 
     def addWord(self, word):
         """
         :type word: str
         :rtype: None
         """
-        char = word[0]
-        if char not in self.root:
-            node = Node(char)
-            self.root[char] = node
-            for i in range(1, len(word)):
-                curr = Node(word[i])
-                node.add_neighbor(word[i], curr)
-                node = curr
-            
-            node.end = True
+        cur_node = self.root
+        for c in word:
+            if c not in cur_node.childern:
+                cur_node.childern[c] = Node()
+                cur_node = cur_node.childern[c]
+            else:
+                cur_node = cur_node.childern[c]
+
+        cur_node.end = True
+
+    
+    def dfs(self, index, cur_node, word):
+        if index == len(word):
+            return cur_node.end
+        
+        if word[index] == ".":
+            for child in cur_node.childern:
+                if self.dfs(index + 1, cur_node.childern[child]   , word):
+                    return True
+
+        if word[index] in cur_node.childern:
+            return self.dfs(index + 1, cur_node.childern[word[index]], word  )
         else:
-            node = self.root[char]
+            return False
 
-            for i in range(1, len(word)):
-                curr_word = word[i]
-                if curr_word not in node.neighbors:
-                    curr = Node(word[i])
-                    node.add_neighbor(curr_word, curr)
-                    node = curr
-                else:
-                    node = node.neighbors[curr_word]
-            
-            node.end = True
-
-    def dfs(self, char):
-        pass
 
     def search(self, word):
         """
         :type word: str
         :rtype: bool
         """
-        char = word[0]
-
-        if char in self.root:
-            node = self.root[char]
-            
-            for i in range(1, len(word)):   
-                curr_word = word[i]                 
-                if curr_word in node.neighbors:
-                    node = node.neighbors[curr_word]
-                else:
-                    return False
-
-                if i == len(word) - 1 and not node.end:
-                    return False 
-        
-        return True
-        
+        cur_node = self.root
+        return self.dfs(0, cur_node, word)
 
 
 # Your WordDictionary object will be instantiated and called as such:
