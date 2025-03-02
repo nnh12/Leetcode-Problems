@@ -4,22 +4,24 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        if (len(nums) == 1):
+            return nums[0]
+
         low = 0
         high = len(nums) - 1
+        length = len(nums) - 1
+        org_mid = (high + low) / 2
+        count = 0
 
-        while (low <= high):
+        while (low < high):
             mid = (high + low) / 2 
 
-            print(mid)
-            if (mid == 0):
-                return nums[0]
-            
-            if (mid == len(nums) - 1):
-                return nums[len(nums) - 1]
-            
-            if (nums[mid] > nums[mid + 1] and nums[mid] > nums[mid - 1]):
-                return nums[mid + 1]
-            
-            if (nums[mid] < nums[mid + 1] and nums[mid] > nums[mid - 1]):
-                high = mid - 1
-                print('here', high)
+            print('mid', mid)
+            if (nums[mid]  > nums[high] ):
+                low = mid + 1
+                print('low', low)
+            else:
+                high = mid 
+                print('high', high)
+
+        return nums[low]
