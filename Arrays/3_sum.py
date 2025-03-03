@@ -4,22 +4,30 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        dict = {}
         list = []
+        a = 0
+        nums = sorted(nums)
 
-        for i in range(len(nums)):
-            if nums[i] not in dict:
-                dict[nums[i]] =[]
-                dict[nums[i]].append(i)
-            else:
-                dict[nums[i]].append(i)
+        while (a < len(nums) - 2 ):
+            left = a + 1
+            right = len(nums) - 1
 
-        for i in range(len(nums)):
-            for j in range(i + 1, len(nums)):
-                if ( -nums[i] - nums[j] in dict ):
-                    dict_list = dict[-nums[i] - nums[j]]
-                    for index in dict_list:
-                        if index != i and index != j and sorted([nums[i], nums[j], nums[index]]) not in list:
-                            list.append(sorted([nums[i], nums[j], nums[index]]))
+            while left < right:
+                sum = nums[left] + nums[a] + nums[right]
+                print(a, left, right)
+
+                if sum == 0:
+                    sublist = sorted([  nums[left] , nums[a], nums[right]  ])
+                    if sublist not in list:
+                        list.append(sublist)
+                    left += 1
+                    right -= 1
+                    
+                elif (sum < 0):
+                    left += 1
+                elif (sum > 0):
+                    right -= 1
+            
+            a += 1
 
         return list
