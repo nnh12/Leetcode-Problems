@@ -5,22 +5,26 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        heap = []
-        heapq.heapify(heap)
-        low = 0
+        queue = deque()
         list = []
+        end = 1
+        front = k - 1
 
         for i in range(k):
-            heapq.heappush(heap, -1 * nums[i])
+            while (queue and nums[queue[-1]] < nums[i]):
+                queue.pop()
+            queue.append(i)
 
-        list.append(-1 * heap[0])
         for i in range(k, len(nums)):
-            if (-1 * nums[low]) in heap:
-                heap.remove(-1 * nums[low])
-            
-            heapq.heappush(heap, - 1 * nums[i])
-            heapq.heapify(heap)
-            list.append(-1 * heap[0])
-            low += 1
-        
+            list.append(nums[queue[0]])
+            if queue[0] < end:
+                queue.popleft()
+
+            while (queue and nums[queue[-1]] < nums[i]):
+                queue.pop()
+
+            queue.append(i)
+            end += 1
+
+        list.append(nums[queue[0]])
         return list
