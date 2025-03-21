@@ -15,7 +15,7 @@ class Solution(object):
             if nums[high] == max_element:
                 max_count += 1
             
-            while (low < high and max_count >= k):
+            while (low <= high and max_count >= k):
                 print('high', high, 'low', low)
                 sub_array += 1
                 if nums[low] == max_element:
