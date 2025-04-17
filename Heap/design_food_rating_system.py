@@ -37,9 +37,7 @@ class FoodRatings(object):
             cur_rating = self.foods[food][0]
             heap = self.cusines[cur_cusine]
             
-            heap[heap.index((-1*cur_rating, food)) ] =  (float('inf'), None)
             self.foods[food][0] = newRating
-            heapq.heapify(heap)
             heapq.heappush(heap, (-1*newRating, food))
                                   
     def highestRated(self, cuisine):
@@ -47,10 +45,17 @@ class FoodRatings(object):
         :type cuisine: str
         :rtype: str
         """
+        heap = self.cusines[cuisine]
+        while heap:
+            heap_rating, food = heap[0]
+            if -1*self.foods[food][0] == heap_rating:
+                return food
+            heapq.heappop(heap)
+            
         #print(self.cusines)
-        if cuisine in self.cusines:
-            heap = self.cusines[cuisine]
-            return heap[0][1]
+        #if cuisine in self.cusines:
+        #    heap = self.cusines[cuisine]
+        #    return heap[0][1]
 
 
 
