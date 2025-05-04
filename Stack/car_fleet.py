@@ -1,6 +1,8 @@
 class Solution:
     """
-    Python3 solution
+    Python3 solution to
+    LeetCode problem 853. Car Fleet.
+    https://leetcode.com/problems/car-fleet/
     """
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
         pairs = []
