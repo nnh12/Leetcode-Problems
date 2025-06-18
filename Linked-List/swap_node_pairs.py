@@ -9,18 +9,15 @@ class Solution(object):
         if head == None or head.next == None:
             return start
         
+        swap = head.next
+        head.next = head.next.next
+        swap.next = head
+        head = swap
+
         if prev == None:
-            swap = head.next
-            head.next = head.next.next
-            swap.next = head
-            head = swap
             prev = head.next
-            start = head
+            start= head
         else:
-            swap = head.next
-            head.next = head.next.next
-            swap.next = head
-            head = swap
             prev.next = head
             prev = head.next
             
