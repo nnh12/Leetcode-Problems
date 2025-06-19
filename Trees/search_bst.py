@@ -11,13 +11,19 @@ class Solution(object):
 
     def search(self, root, val):
         if root == None:
-            return
+            return 0
 
         if root.val == val:
-            self.keep = root
+            return root
         
-        self.search(root.right, val)
-        self.search(root.left, val)
+        left = self.search(root.left, val)
+        if left:
+            return left
+        right = self.search(root.right, val)
+        
+        if right:
+            return right
+        
 
     def searchBST(self, root, val):
         """
@@ -25,5 +31,5 @@ class Solution(object):
         :type val: int
         :rtype: Optional[TreeNode]
         """
-        self.search(root, val)
-        return self.keep
+        return self.search(root, val)
+        
