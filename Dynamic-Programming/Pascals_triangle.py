@@ -1,11 +1,5 @@
 class Solution(object):
-
-    def create(self, row, col):
-        if col == 0 or row == col:
-            return 1
-        
-        return self.create(row - 1, col - 1) + self.create(row - 1, col)
-        
+     
 
     def generate(self, numRows):
         """
@@ -13,14 +7,14 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         list = []
-        for i in range(numRows):
+        for row in range(numRows):
             sub_list = []
-            index = 0
-            while index <= i:
-                compute = self.create(i, index)
-                sub_list.append(compute)
-                index += 1
-            list.append(sub_list)
+            for col in range(row + 1):
+                if col == 0 or col == row:
+                    sub_list.append(1)
+                else:
+                    cur = list[row-1][col-1] + list[row-1][col]
+                    sub_list.append(cur)
+            list.append(sub_list) 
         
         return list
-        
