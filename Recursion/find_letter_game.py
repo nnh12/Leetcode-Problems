@@ -1,3 +1,4 @@
+import math
 class Solution(object):
 
     def help(self, n,  k, count):
@@ -18,12 +19,6 @@ class Solution(object):
         :type k: int
         :rtype: str
         """
-        num = 1
-        N = 1
-        while num < k:
-            N += 1
-            num = 2**(N)
-        
-        N += 1
+        N = math.ceil(math.log(k, 2)) + 1
         increment = self.help(N, k, 0)
         return chr(ord('a') + increment)
